@@ -17,3 +17,7 @@ encampment game
 # board.c
 * Rule
    * continue editing ...
+
+
+
+sorry for poor english.
