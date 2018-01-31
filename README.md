@@ -20,4 +20,4 @@ encampment game
 
 
 
-sorry for poor english.
+# # sorry for poor english.
