@@ -1,3 +1,4 @@
+Sorry for poor English.
 # Boardgame
 encampment game
 # number.c
@@ -18,6 +19,3 @@ encampment game
 * Rule
    * continue editing ...
 
-
-
-# # sorry for poor english.
