@@ -1,9 +1,9 @@
 Sorry for poor English.
 # Boardgame
-* encampment game
+* Encampment game
 # number.c
 * Rule
-   * two-player game
+   * Two-player game
    * You can put anywhere on the board from (1, 1) to (5, 5). (Except where other numbers are placed)
    * You can choose numbers from 1 to 5.
    * First placed number is each of your number.
