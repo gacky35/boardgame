@@ -1,4 +1,4 @@
- boardgame
+# Boardgame
 encampment game
 # number.c
 * Rule
