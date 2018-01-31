@@ -1,6 +1,6 @@
 Sorry for poor English.
 # Boardgame
-encampment game
+* encampment game
 # number.c
 * Rule
    * two-player game
