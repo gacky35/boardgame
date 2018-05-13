@@ -1,6 +1,35 @@
 #include<stdio.h>
 #define NUMBER 7
 
+void attack(int v[NUMBER][NUMBER]);
+void player_2(int v[NUMBER][NUMBER]);
+void player_1(int v[NUMBER][NUMBER]);
+void battle(int v[NUMBER][NUMBER], int a, int b, int c);
+void battle__contents(int v[NUMBER][NUMBER], int a, int b, int t);
+int battle_contents(int v[NUMBER][NUMBER], int a, int b, int t);
+int finish_roop(int v[NUMBER][NUMBER], int a, int b, int t);
+int skip(int v[NUMBER][NUMBER], int n);
+int judge(int v[NUMBER][NUMBER]);
+int check(int v[NUMBER][NUMBER], int a, int b);
+void disp_board(int v[NUMBER][NUMBER]);
+void set_board(int v[NUMBER][NUMBER]);
+void rule(void);
+void attack(int v[NUMBER][NUMBER]);
+
+int main(void)
+{
+    int v[NUMBER][NUMBER];
+
+    rule();
+    set_board(v);
+    disp_board(v);
+    while(judge(v)){
+        attack(v);
+    }
+    
+    return 0;
+}
+
 void rule(void){
     printf("rule 初手はそれぞれ角に●、▲、◆のいずれかを置く。\n");
     printf("以降は自身が置いた駒の隣に、異なる記号を置いていく。\n");
@@ -64,53 +93,17 @@ int check(int v[NUMBER][NUMBER], int a, int b){
     
     if(a-1 == 0 || a+1 == 6 || b-1 == 0 || b+1 == 6){
         s += 1;
-    }if(v[a+1][b] == 1){
+    }if(v[a+1][b] == 1 || v[a-1][b] == 1 || v[a][b+1] == 1 || v[a][b-1] == 1){
         c1 += 1;
-    }if(v[a-1][b] == 1){
-        c1 += 1;
-    }if(v[a][b+1] == 1){
-        c1 += 1;
-    }if(v[a][b-1] == 1){
-        c1 += 1;
-    }if(v[a+1][b] == 2){
+    }if(v[a+1][b] == 2 || v[a-1][b] == 2 || v[a][b+1] == 2 || v[a][b-1] == 2){
         c2 += 1;
-    }if(v[a-1][b] == 2){
-        c2 += 1;
-    }if(v[a][b+1] == 2){
-        c2 += 1;
-    }if(v[a][b-1] == 2){
-        c2 += 1;
-    }if(v[a+1][b] == 3){
+    }if(v[a+1][b] == 3 || v[a-1][b] == 3 || v[a][b+1] == 3 || v[a][b-1] == 3){
         c3 += 1;
-    }if(v[a-1][b] == 3){
-        c3 += 1;
-    }if(v[a][b+1] == 3){
-        c3 += 1;
-    }if(v[a][b-1] == 3){
-        c3 += 1;
-    }if(v[a+1][b] == -1){
+    }if(v[a+1][b] == -1 || v[a-1][b] == -1 || v[a][b+1] == -1 || v[a][b-1] == -1){
         c4 += 1;
-    }if(v[a-1][b] == -1){
-        c4 += 1;
-    }if(v[a][b+1] == -1){
-        c4 += 1;
-    }if(v[a][b-1] == -1){
-        c4 += 1;
-    }if(v[a+1][b] == -2){
+    }if(v[a+1][b] == -2 || v[a-1][b] == -2 || v[a][b+1] == -2 || v[a][b-1] == -2){
         c5 += 1;
-    }if(v[a-1][b] == -2){
-        c5 += 1;
-    }if(v[a][b+1] == -2){
-        c5 += 1;
-    }if(v[a][b-1] == -2){
-        c5 += 1;
-    }if(v[a+1][b] == -3){
-        c6 += 1;
-    }if(v[a-1][b] == -3){
-        c6 += 1;
-    }if(v[a][b+1] == -3){
-        c6 += 1;
-    }if(v[a][b-1] == -3){
+    }if(v[a+1][b] == -3 || v[a-1][b] == -3 || v[a][b+1] == -3 || v[a][b-1] == -3){
         c6 += 1;
     }if(c1 > 0 && c2 > 0 && c3 >0){
         return 1;
@@ -127,6 +120,7 @@ int judge(int v[NUMBER][NUMBER])
     int flag1=0;
     int flag2=0;
     int i, j;
+    static int p = 0;
     
     for(i=1;i<NUMBER-1;i++){
         for(j=1;j<NUMBER-1;j++){
@@ -156,12 +150,24 @@ int judge(int v[NUMBER][NUMBER])
         puts("won by player_2");
         puts("player_2 gets more area.");
         return 0;
+    }else if(p>1){
+        if(skip(v, p%2)){
+            if(p%2){
+                puts("won by player_1");
+                puts("player_2 can't put anywhere");
+            }else{
+                puts("won by player_2");
+                puts("player_1 can't put anywhere");
+            }
+            return 0;
+        }
     }else{
+        p += 1;
         return 1;
     }
 }
 
-int skip(int v[NUMBER][NUMBER], int a, int b, int n){
+int skip(int v[NUMBER][NUMBER], int n){
     int flag = 0;
     int t;
     int i, j;
@@ -169,12 +175,12 @@ int skip(int v[NUMBER][NUMBER], int a, int b, int n){
     for(i=1;i<NUMBER-1;i++){
         for(j=1;j<NUMBER-1;j++){
             if (v[i][j] == 10){
-                if (n == 1){
+                if (n == 0){
                     if(!((!((v[i-1][j] > 0 && v[i-1][j] <= 3) || (v[i+1][j] > 0 && v[i+1][j] <= 3)
                      || (v[i][j-1] > 0 && v[i][j-1] <= 3) || (v[i][j+1] > 0 && v[i][j+1] <= 3))) || (check(v, i, j) == 1))){
                         flag += 1;
                     }
-                }else if (n == 2){
+                }else if (n == 1){
                     if(!((v[i-1][j] >= 0 && v[i+1][j] >= 0 && v[i][j-1] >= 0 && v[i][j+1] >= 0) || (check(v, i, j) == 2))){
                         flag += 1;
                     }
@@ -191,38 +197,39 @@ int skip(int v[NUMBER][NUMBER], int a, int b, int n){
     }
 }
 
-int finish_roop_1(int v[NUMBER][NUMBER], int a, int b){
-    if(v[a][b] == 1 || v[a][b] == 2){
-        if(v[a][b] + v[a-1][b] == -1 || v[a][b] + v[a+1][b] == -1 
-        || v[a][b] + v[a][b-1] == -1 || v[a][b] + v[a][b+1] == -1){
-            return 1;
-        }else{
-            return 0;
+int finish_roop(int v[NUMBER][NUMBER], int a, int b, int t){
+    if(t==1){
+        if(v[a][b] == 1 || v[a][b] == 2){
+            if(v[a][b] + v[a-1][b] == -1 || v[a][b] + v[a+1][b] == -1 
+            || v[a][b] + v[a][b-1] == -1 || v[a][b] + v[a][b+1] == -1){
+                return 1;
+            }else{
+                return 0;
+            }
+        }else if(v[a][b] == 3){
+            if(v[a][b] + v[a-1][b] == 2 || v[a][b] + v[a+1][b] == 2 
+            || v[a][b] + v[a][b-1] == 2 || v[a][b] + v[a][b+1] == 2){
+                return 1;
+            }else{
+                return 0;
+            }
         }
-    }else if(v[a][b] == 3){
-                if(v[a][b] + v[a-1][b] == 2 || v[a][b] + v[a+1][b] == 2 
-                || v[a][b] + v[a][b-1] == 2 || v[a][b] + v[a][b+1] == 2){
-                    return 1;
-                }else{
-                    return 0;
-                }
     }
-}
-
-int finish_roop_2(int v[NUMBER][NUMBER], int a, int b){
-    if(v[a][b] == -1 || v[a][b] == -2){
-        if(v[a][b] + v[a-1][b] == 1 || v[a][b] + v[a+1][b] == 1 
-        || v[a][b] + v[a][b-1] == 1 || v[a][b] + v[a][b+1] == 1){
-            return 1;
-        }else{
-            return 0;
-        }
-    }else if(v[a][b] == -3){
-        if(v[a][b] + v[a-1][b] == -2 || v[a][b] + v[a+1][b] == -2 
-        || v[a][b] + v[a][b-1] == -2 || v[a][b] + v[a][b+1] == -2){
-            return 1;
-        }else{
-            return 0;
+    if(t==2){
+        if(v[a][b] == -1 || v[a][b] == -2){
+            if(v[a][b] + v[a-1][b] == 1 || v[a][b] + v[a+1][b] == 1 
+            || v[a][b] + v[a][b-1] == 1 || v[a][b] + v[a][b+1] == 1){
+                return 1;
+            }else{
+                return 0;
+            }
+        }else if(v[a][b] == -3){
+            if(v[a][b] + v[a-1][b] == -2 || v[a][b] + v[a+1][b] == -2 
+            || v[a][b] + v[a][b-1] == -2 || v[a][b] + v[a][b+1] == -2){
+                return 1;
+            }else{
+                return 0;
+            }
         }
     }
 }
@@ -266,21 +273,9 @@ int battle_contents(int v[NUMBER][NUMBER], int a, int b, int t){
     }
 }
 
-void battle_contents2(int v[NUMBER][NUMBER], int a, int b, int t){
-    int c, d;
-    c = a;
-    d = b;
-    while(finish_roop_1(v, c, d)){
-        battle_contents(v, c, d, t);
-    }
-}
-
-void battle_contents3(int v[NUMBER][NUMBER], int a, int b, int t){
-    int c, d;
-    c = a;
-    d = b;
-    while(finish_roop_2(v, c, d)){
-        battle_contents(v, c, d, t);
+void battle__contents(int v[NUMBER][NUMBER], int a, int b, int t){
+    while(finish_roop(v, a, b, t)){
+        battle_contents(v, a, b, t);
     }
 }
 
@@ -288,91 +283,76 @@ void battle(int v[NUMBER][NUMBER], int a, int b, int c){
     static int t;
     if(c > 0){
         t=1;
-        battle_contents2(v, a, b, t);
     }else if(c < 0){
         t=2;
-        battle_contents3(v, a, b, t);
     }
+    battle__contents(v, a, b, t);
 }
 
 void player_1(int v[NUMBER][NUMBER]){
     static int a, b;
     static int c;
     int t = 0;
-    int n = 1;
     
-    t = skip(v, a, b, n);
     puts("player1");
-    if(t == 1){
-        printf("You can't put anywhere, skip your turn\n");
-    }else{
-        for(t;t == 0;){
-            printf("Please choose place : ");   scanf("%d %d", &a, &b);
-            if(a < 1 || a > 5 || b < 1 || b > 5){
-                printf("Out of the range ! Please select the place again.\n");
-            }else if(v[a][b] != 10 || (!((v[a-1][b] > 0 && v[a-1][b] <= 3) || (v[a+1][b] > 0 && v[a+1][b] <= 3)
-            || (v[a][b-1] > 0 && v[a][b-1] <= 3) || (v[a][b+1] > 0 && v[a][b+1] <= 3))) || (check(v, a, b) == 1)){
-                printf("Can't put !! Please put on another place.\n");
-            }else{
-                t += 1;
-            }
+    while(!t){
+        printf("Please choose place : ");   scanf("%d %d", &a, &b);
+        if(a < 1 || a > 5 || b < 1 || b > 5){
+            printf("Out of the range ! Please select the place again.\n");
+        }else if(v[a][b] != 10 || (!((v[a-1][b] > 0 && v[a-1][b] <= 3) || (v[a+1][b] > 0 && v[a+1][b] <= 3)
+        || (v[a][b-1] > 0 && v[a][b-1] <= 3) || (v[a][b+1] > 0 && v[a][b+1] <= 3))) || (check(v, a, b) == 1)){
+            printf("Can't put !! Please put on another place.\n");
+        }else{
+            t += 1;
         }
-        t = 0;
-        for(t;t == 0;){
-            printf("1...〇\n2...△\n3...◇\nPlease choose any mark : ");
-            scanf("%d", &c);
-            if(c > 3 || c <= 0){
-                printf("Out of the range ! Please select the number from 1 to 3.\n");
-            }else if(v[a-1][b] == c || v[a+1][b] == c || v[a][b-1] == c || v[a][b+1] == c){
-                printf("Can't put !! Please choose another mark.\n");
-            }else{
-                v[a][b] = c;
-                t += 1;
-            }
-        }
-        battle(v, a, b, c);
-        disp_board(v);
     }
+    while(t){
+        printf("1...〇\n2...△\n3...◇\nPlease choose any mark : ");
+        scanf("%d", &c);
+        if(c > 3 || c <= 0){
+            printf("Out of the range ! Please select the number from 1 to 3.\n");
+        }else if(v[a-1][b] == c || v[a+1][b] == c || v[a][b-1] == c || v[a][b+1] == c){
+            printf("Can't put !! Please choose another mark.\n");
+        }else{
+            v[a][b] = c;
+            t = 0;
+        }
+    }
+    battle(v, a, b, c);
+    disp_board(v);
 }
 
 void player_2(int v[NUMBER][NUMBER]){
     static int a, b;
     static int c;
     int t = 0;
-    int n = 2;
     
-    t = skip(v, a, b, n);
     puts("player2");
-    if(t == 1){
-        printf("You can't put anywhere, skip your turn\n");
-    }else{
-        for(t;t == 0;){
-            printf("Please choose place : ");   scanf("%d %d", &a, &b);
-            if(a < 1 || a > 5 || b < 1 || b > 5){
-                printf("Out of the range ! Please select the place again.\n");
-            }if((v[a-1][b] >= 0 && v[a+1][b] >= 0 && v[a][b-1] >= 0 && v[a][b+1] >= 0) || v[a][b] != 10 || (check(v, a, b) == 2)){
-                printf("Can't put !! Please put on another place.\n");
-            }else{
-                t += 1;
-            }
+    while(!t){
+        printf("Please choose place : ");   scanf("%d %d", &a, &b);
+        if(a < 1 || a > 5 || b < 1 || b > 5){
+            printf("Out of the range ! Please select the place again.\n");
+        }if((v[a-1][b] >= 0 && v[a+1][b] >= 0 && v[a][b-1] >= 0 && v[a][b+1] >= 0) || v[a][b] != 10 || (check(v, a, b) == 2)){
+            printf("Can't put !! Please put on another place.\n");
+        }else{
+            t += 1;
         }
-        t = 0;
-        for(t;t == 0;){
-            printf("1...●\n2...▲\n3...◆\nPlease choose any mark : ");
-            scanf("%d", &c);
-            c = -c;
-            if(c >= 0 || c < -3){
-                printf("Out of the range ! Please select the number from 1 to 3.\n");
-            }else if(v[a-1][b] == c || v[a+1][b] == c || v[a][b-1] == c || v[a][b+1] == c){
-                printf("Can't put !! Please choose another mark.\n");
-            }else{
-                v[a][b] = c;
-                t += 1;
-            }
-        }
-        battle(v, a, b, c);
-        disp_board(v);
     }
+    while(t){
+        printf("1...●\n2...▲\n3...◆\nPlease choose any mark : ");
+        scanf("%d", &c);
+        c = -c;
+        if(c >= 0 || c < -3){
+            printf("Out of the range ! Please select the number from 1 to 3.\n");
+        }else if(v[a-1][b] == c || v[a+1][b] == c || v[a][b-1] == c || v[a][b+1] == c){
+            printf("Can't put !! Please choose another mark.\n");
+        }else{
+            v[a][b] = c;
+            t = 0;
+        }
+    }
+    battle(v, a, b, c);
+    disp_board(v);
 }
 
 void attack(int v[NUMBER][NUMBER])
@@ -382,15 +362,27 @@ void attack(int v[NUMBER][NUMBER])
     static int t = 0;
     
     if(c == 1){
-        printf("player2\n1...●\n2...▲\n3...◆\n");
-        printf("Please choose number : ");  scanf("%d", &a);
+        do{
+            printf("player2\n1...●\n2...▲\n3...◆\n");
+            printf("Please choose number : ");  scanf("%d", &a);
+            if(a<1 || a>3){
+                puts("Out of rage");
+                puts("Please choose again");
+            }
+        }while(a<1 || a>3);
         a = -a;
         v[1][NUMBER-2] = a;
         c += 1;
         disp_board(v);
     }else if(c == 0){
-        printf("player1\n1...〇\n2...△\n3...◇\n");
-        printf("Please choose number : ");  scanf("%d", &a);
+        do{
+            printf("player1\n1...〇\n2...△\n3...◇\n");
+            printf("Please choose number : ");  scanf("%d", &a);
+            if(a<1 || a>3){
+                puts("Out of rage");
+                puts("Please choose again");
+            }
+        }while(a<1 || a>3);
         v[NUMBER-2][1] = a;
         c += 1;
         disp_board(v);
@@ -401,19 +393,4 @@ void attack(int v[NUMBER][NUMBER])
         player_2(v);
         t += 1;
     }
-}
-
-int main(void)
-{
-    int v[NUMBER][NUMBER];
-    int i, j;
-
-    rule();
-    set_board(v);
-    disp_board(v);
-    while(judge(v)){
-        attack(v);
-    }
-    
-    return 0;
 }
