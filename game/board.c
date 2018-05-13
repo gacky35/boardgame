@@ -227,71 +227,71 @@ int finish_roop_2(int v[NUMBER][NUMBER], int a, int b){
     }
 }
 
-int buttle_contents(int v[NUMBER][NUMBER], int a, int b, int t){
+int battle_contents(int v[NUMBER][NUMBER], int a, int b, int t){
     
     if(t==1 && (v[a-1][b] < 0 || v[a+1][b] < 0 || v[a][b-1] < 0 || v[a][b+1] < 0)){
         if(v[a][b] + v[a-1][b] == 2 || v[a][b] + v[a-1][b] == -1){
             v[a-1][b] = -v[a-1][b];
-            buttle_contents(v, a - 1, b, t);
+            battle_contents(v, a - 1, b, t);
         }
         if(v[a][b] + v[a+1][b] == 2 || v[a][b] + v[a+1][b] == -1){
             v[a+1][b] = -v[a+1][b];
-            buttle_contents(v, a + 1, b, t);
+            battle_contents(v, a + 1, b, t);
         }
         if(v[a][b] + v[a][b-1] == 2 || v[a][b] + v[a][b-1] == -1){
             v[a][b-1] = -v[a][b-1];
-            buttle_contents(v, a, b - 1, t);
+            battle_contents(v, a, b - 1, t);
         }
         if(v[a][b] + v[a][b+1] == 2 || v[a][b] + v[a][b+1] == -1){
             v[a][b+1] = -v[a][b+1];
-            buttle_contents(v, a, b + 1, t);
+            battle_contents(v, a, b + 1, t);
         }
     }else if(t==2 && (v[a-1][b] > 0 || v[a+1][b] > 0 || v[a][b-1] > 0 || v[a][b+1] > 0)){
         if(v[a][b] + v[a-1][b] == -2 || v[a][b] + v[a-1][b] == 1){
             v[a-1][b] = -v[a-1][b];
-            buttle_contents(v, a - 1, b, t);
+            battle_contents(v, a - 1, b, t);
         }
         if(v[a][b] + v[a+1][b] == -2 || v[a][b] + v[a+1][b] == 1){
             v[a+1][b] = -v[a+1][b];
-            buttle_contents(v, a + 1, b, t);
+            battle_contents(v, a + 1, b, t);
         }
         if(v[a][b] + v[a][b-1] == -2 || v[a][b] + v[a][b-1] == 1){
             v[a][b-1] = -v[a][b-1];
-            buttle_contents(v, a, b - 1, t);
+            battle_contents(v, a, b - 1, t);
         }
         if(v[a][b] + v[a][b+1] == -2 || v[a][b] + v[a][b+1] == 1){
             v[a][b+1] = -v[a][b+1];
-            buttle_contents(v, a, b + 1, t);
+            battle_contents(v, a, b + 1, t);
         }
     }
 }
 
-void buttle_contents2(int v[NUMBER][NUMBER], int a, int b, int t){
+void battle_contents2(int v[NUMBER][NUMBER], int a, int b, int t){
     int c, d;
     c = a;
     d = b;
     while(finish_roop_1(v, c, d)){
-        buttle_contents(v, c, d, t);
+        battle_contents(v, c, d, t);
     }
 }
 
-void buttle_contents3(int v[NUMBER][NUMBER], int a, int b, int t){
+void battle_contents3(int v[NUMBER][NUMBER], int a, int b, int t){
     int c, d;
     c = a;
     d = b;
     while(finish_roop_2(v, c, d)){
-        buttle_contents(v, c, d, t);
+        battle_contents(v, c, d, t);
     }
 }
 
-void buttle(int v[NUMBER][NUMBER], int a, int b, int c){
+void battle(int v[NUMBER][NUMBER], int a, int b, int c){
     static int t;
     if(c > 0){
         t=1;
-        buttle_contents2(v, a, b, t);
+        battle_contents2(v, a, b, t);
     }else if(c < 0){
         t=2;
-        buttle_contents3(v, a, b, t);
+        battle_contents3(v, a, b, t);
     }
 }
 
@@ -330,7 +330,7 @@ void player_1(int v[NUMBER][NUMBER]){
                 t += 1;
             }
         }
-        buttle(v, a, b, c);
+        battle(v, a, b, c);
         disp_board(v);
     }
 }
@@ -370,7 +370,7 @@ void player_2(int v[NUMBER][NUMBER]){
                 t += 1;
             }
         }
-        buttle(v, a, b, c);
+        battle(v, a, b, c);
         disp_board(v);
     }
 }
