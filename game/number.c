@@ -9,7 +9,6 @@ void set(int v[NUMBER][NUMBER]){
             v[i][j] = 0;
         }
     }
-
 }
 
 void disp(int v[NUMBER][NUMBER]){
