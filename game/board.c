@@ -7,14 +7,13 @@ void player_1(int v[NUMBER][NUMBER]);
 void battle(int v[NUMBER][NUMBER], int a, int b, int c);
 void battle__contents(int v[NUMBER][NUMBER], int a, int b, int t);
 int battle_contents(int v[NUMBER][NUMBER], int a, int b, int t);
-int finish_roop(int v[NUMBER][NUMBER], int a, int b, int t);
+int finish_loop(int v[NUMBER][NUMBER], int a, int b, int t);
 int skip(int v[NUMBER][NUMBER], int n);
 int judge(int v[NUMBER][NUMBER]);
 int check(int v[NUMBER][NUMBER], int a, int b);
 void disp_board(int v[NUMBER][NUMBER]);
 void set_board(int v[NUMBER][NUMBER]);
 void rule(void);
-void attack(int v[NUMBER][NUMBER]);
 
 int main(void)
 {
@@ -25,8 +24,7 @@ int main(void)
     disp_board(v);
     while(judge(v)){
         attack(v);
-    }
-    
+    } 
     return 0;
 }
 
@@ -57,10 +55,14 @@ void set_board(int v[NUMBER][NUMBER])
 void disp_board(int v[NUMBER][NUMBER])
 {
     int i, j;
-    printf("   1 2 3 4 5\n");
-    for(i=1;i<6;i++){
+    printf("   ");
+    for (i=1;i<NUMBER-1;i++){
+        printf("%d ", i);
+    }
+    puts("");
+    for(i=1;i<NUMBER-1;i++){
         printf("%2d", i);
-        for(j=1;j<6;j++){
+        for(j=1;j<NUMBER-1;j++){
             if(v[i][j] == 10 || v[i][j] == 0){
                 printf("□");
             }else if(v[i][j] == 1){
@@ -105,9 +107,9 @@ int check(int v[NUMBER][NUMBER], int a, int b){
         c5 += 1;
     }if(v[a+1][b] == -3 || v[a-1][b] == -3 || v[a][b+1] == -3 || v[a][b-1] == -3){
         c6 += 1;
-    }if(c1 > 0 && c2 > 0 && c3 >0){
+    }if(c1 > 0 && c2 > 0 && c3 > 0){
         return 1;
-    }else if(c4 > 0 && c5 > 0 && c6 >0){
+    }else if(c4 > 0 && c5 > 0 && c6 > 0){
         return 2;
     }else{
         return 0;
@@ -160,6 +162,8 @@ int judge(int v[NUMBER][NUMBER])
                 puts("player_1 can't put anywhere");
             }
             return 0;
+        }else{
+            return 1;
         }
     }else{
         p += 1;
@@ -197,7 +201,7 @@ int skip(int v[NUMBER][NUMBER], int n){
     }
 }
 
-int finish_roop(int v[NUMBER][NUMBER], int a, int b, int t){
+int finish_loop(int v[NUMBER][NUMBER], int a, int b, int t){
     if(t==1){
         if(v[a][b] == 1 || v[a][b] == 2){
             if(v[a][b] + v[a-1][b] == -1 || v[a][b] + v[a+1][b] == -1 
@@ -274,7 +278,7 @@ int battle_contents(int v[NUMBER][NUMBER], int a, int b, int t){
 }
 
 void battle__contents(int v[NUMBER][NUMBER], int a, int b, int t){
-    while(finish_roop(v, a, b, t)){
+    while(finish_loop(v, a, b, t)){
         battle_contents(v, a, b, t);
     }
 }
@@ -360,7 +364,6 @@ void attack(int v[NUMBER][NUMBER])
     static int c = 0;
     int a;
     static int t = 0;
-    
     if(c == 1){
         do{
             printf("player2\n1...●\n2...▲\n3...◆\n");
