@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="shift-jis">
+    <title>Board game JS</title>
+    <link href="app.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="main" class="container">
+      <div id="board" align="center">
+      <table>
+        <tr>
+          <td><img id="11" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="12" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="13" src="./background.jpg" width="80" height="80"></td>
+<!--          <td><img id="14" src="./background.jpg" width="80" height="80"></td>-->
+        </tr>
+        <tr>
+          <td><img id="21" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="22" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="23" src="./background.jpg" width="80" height="80"></td>
+<!--          <td><img id="24" src="./background.jpg" width="80" height="80"></td>-->
+        </tr>
+        <tr>
+          <td><img id="31" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="32" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="33" src="./background.jpg" width="80" height="80"></td>
+<!--          <td><img id="34" src="./background.jpg" width="80" height="80"></td>-->
+        </tr>
+<!--        <tr>
+          <td><img id="41" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="42" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="43" src="./background.jpg" width="80" height="80"></td>
+          <td><img id="44" src="./background.jpg" width="80" height="80"></td>
+        </tr>-->
+      </table>
+      </div>
+      <div id="current-player" align="center">Current player: <span id="current-player-name">-</span></div>
+      <div id="selected-number" align="center">Selected number: <span id="number">-</span></div>
+      <div id="playerA" align="center">PlayerA's number: <span id="playerA-number">-</span></div>
+      <div id="playerB" align="center">PlayerB's number: <span id="playerB-number">-</span></div>
+      <div id="capture" align="center">
+      <table>
+        <tr>
+          <td><img id="one" src="./1.jpg" width="80" height="80"></td>
+          <td><img id="two" src="./2.jpg" width="80" height="80"></td>
+          <td><img id="three" src="./3.jpg" width="80" height="80"></td>
+          <td><img id="four" src="./4.jpg" width="80" height="80"></td>
+          <td><img id="five" src="./5.jpg" width="80" height="80"></td>
+        </tr>
+      </table>
+      </div>
+      <div style="display: none;"id="PlayerA" align="center">Player A, please choose your number.</div>
+      <div style="display: none;"id="PlayerB" align="center">Player B, please choose your number.</div>
+      <div align="center"><button style="display: none;" id="replay">replay</button></div>
+    </div>
+    <script src="app2.js"></script>
+  </body>
+</html>
